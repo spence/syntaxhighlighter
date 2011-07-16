@@ -1,0 +1,702 @@
+<!doctype html>
+
+<style>
+.code { position:relative; }
+.code .line-numbers { width: 45px; position: absolute; top: 0; left: 0; bottom: 0; border-right: 1px solid #A5A5A5; overflow: hidden; }
+.code .line-numbers .ones { background: url(vs2010-lines-1s.gif) repeat-y; width: 7px; position: absolute; top: -16px; right: 10px; bottom: 0; }
+.code .line-numbers .tens { background: url(vs2010-lines-10s-2.gif) repeat-y; width: 7px; position: absolute; top: 144px; right: 17px; bottom: 0; }
+.code .line-numbers .hundreds { background: url(vs2010-lines-100s.gif) repeat-y; width: 7px; position: absolute; top: 1584px; right: 24px; bottom: 0; }
+/*.code .line-numbers .thousands { background: url(vs2010-lines-1000s.gif) repeat-y; width: 7px; position: absolute; top: 0; right: 31px; bottom: 0; } */
+.code .content { white-space: pre; font-family: Consolas, Arial; font-size: 13px; line-height: 16px; margin-left: 53px; }
+.code .content .type { color: #2B91AF; }
+.code .content .keyword { color: #0000FF; }
+.code .content .comment, .code .content .comment * { color: #008000 !important; }
+.code .content .doc-comment, .code .content .doc-comment * { color: #808080 !important; }
+.code .content .string, .code .content .string * { color: #A31515 !important; }
+.code s { text-decoration: none !important; }
+</style>
+
+<div class="code">
+    <div class="line-numbers">
+        <div class="thousands">
+            
+        </div>
+        <div class="hundreds"></div>
+        <div class="tens"></div>
+        <div class="ones"></div>
+    </div>
+    <div class="content" id="content"><span class="doc-comment">/// &lt;summary&gt;</span>
+<span class="doc-comment">///</span> <span class="comment">Initialize page binding and control values</span>
+<span class="doc-comment">/// &lt;/summary&gt;</span>
+<span class="keyword">protected</span> <span class="keyword">void</span> Page_Load(<span class="keyword">object</span> sender, <span class="type">EventArgs</span> e)
+{
+    <span class="keyword">var</span> masterPage = Page.Master <span class="keyword">as</span> <span class="type">MyPmi</span>;
+
+    masterPage.PageTitle = <span class="string">&quot;myPMI Events | Project Management Institute&quot;</span>;
+
+    <span class="comment">// Update the Sub Navigation </span>
+    masterPage.SetSubNavigationPage(<span class="string">&quot;Events&quot;</span>);
+} </div>
+</div>
+
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>-->
+<script>
+
+    var code = 'using System;\n' +
+    'using System.Web;\n' +
+    'using System.Web.Security;\n' +
+    'using Pmi.EnterpriseFramework.Web;\n' +
+    'using System.Web.UI.HtmlControls;\n' +
+    '\n' +
+    'namespace Pmi.WebApplication.MyPmi\n' +
+    '{\n' +
+    '    public partial class MyPmi : System.Web.UI.MasterPage\n' +
+    '    {\n' +
+    '        public string PageTitle { get; set; }\n' +
+    '\n' +
+    '        public void SetSubNavigationPage(string pageName)\n' +
+    '        {\n' +
+    '            HtmlGenericControl subNavLink = this.FindControl(pageName + "_Link") as HtmlGenericControl;\n' +
+    '            if (subNavLink != null)\n' +
+    '            {\n' +
+    '                subNavLink.Attributes.Add("class", "selected");\n' +
+    '            }\n' +
+    '        }\n' +
+    '\n' +
+    '        #region Logon Section\n' +
+    '\n' +
+    '        protected void Authentication_LoggedOut(object sender, EventArgs e)\n' +
+    '        {\n' +
+    '            FormsAuthentication.SignOut();\n' +
+    '            Roles.DeleteCookie();\n' +
+    '            Session.Clear();\n' +
+    '            Session.Abandon();\n' +
+    '\n' +
+    '            Response.Redirect("/");\n' +
+    '        }\n' +
+    '\n' +
+    '        protected void Authentication_LoginError(object sender, EventArgs e)\n' +
+    '        {\n' +
+    '            // Since the login is toggled from JS, add script to page to show the login box\n' +
+    '            Page.ClientScript.RegisterClientScriptBlock(Page.GetType(), "failed-login", "jQuery(function(){ ShowLogin() })", true);\n' +
+    '        }\n' +
+    '\n' +
+    '        #endregion\n' +
+    '\n' +
+    '        #region Build Number\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Gets the version number stored in our build.number file. This\n' +
+    '        /// number hardly ever changes (once a day or so, and then the server\n' +
+    '        /// is restarted) so we store it in a shared memory location and only ever\n' +
+    '        /// get it once.\n' +
+    '        /// </summary>\n' +
+    '        /// <returns></returns>\n' +
+    '        protected static Version Version\n' +
+    '        {\n' +
+    '            get\n' +
+    '            {\n' +
+    '                // Lazy loading/singleton implementation\n' +
+    '                if (_version == null)\n' +
+    '                {\n' +
+    '                    _version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;\n' +
+    '                }\n' +
+    '                return _version;\n' +
+    '            }\n' +
+    '        }\n' +
+    '        private static Version _version;\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Display Exceptions if they occurred during the loading of this page (incl. controls used by this page)\n' +
+    '        /// </summary>\n' +
+    '        public override void RenderControl(System.Web.UI.HtmlTextWriter writer)\n' +
+    '        {\n' +
+    '            if (ShowDebug)\n' +
+    '            {\n' +
+    '                var exceptions = Global.GetExceptions();\n' +
+    '                if (exceptions.Count > 0)\n' +
+    '                {\n' +
+    '                    ExceptionNoticeSpan.Visible = Exceptions.Visible = true;\n' +
+    '                    ExceptionNotice.InnerText = string.Format("{0} Exception{1} Occurred", exceptions.Count, exceptions.Count > 1 ? "s" : "");\n' +
+    '\n' +
+    '                    foreach (var exceptionPair in exceptions)\n' +
+    '                    {\n' +
+    '                        Exceptions.InnerHtml += string.Format(\n' +
+    '                            "<div class=\\"pmi-error grid_16\\"><a //// \\\\\\" href=\\"javascript://\\" onclick=\\"$(this).css({{whiteSpace:\'normal\',overflow:\'visible\',height:\'inherit\'}}).next().toggle(\'fast\')\\">{0}</a><div style=\\"display:none\\">{1}</div></div>",\n' +
+    '                            Server.HtmlEncode(exceptionPair.Key), (exceptionPair.Value != null ? Server.HtmlEncode(exceptionPair.Value.ToString()) : "&lt; empty stack trace &gt;"));\n' +
+    '                    }\n' +
+    '                }\n' +
+    '            }\n' +
+    '\n' +
+    '            base.RenderControl(writer);\n' +
+    '        }\n' +
+    '\n' +
+    '        protected bool ShowDebug\n' +
+    '        {\n' +
+    '            get\n' +
+    '            {\n' +
+    '                if (!HttpContext.Current.User.Identity.IsAuthenticated)\n' +
+    '                {\n' +
+    '                    _showDebug = false;\n' +
+    '                }\n' +
+    '                else if (Roles.IsUserInRole("TechAdmin"))\n' +
+    '                {\n' +
+    '                    _showDebug = true;\n' +
+    '                }\n' +
+    '                else\n' +
+    '                {\n' +
+    '                    _showDebug = false;\n' +
+    '                }\n' +
+    '\n' +
+    '                return _showDebug;\n' +
+    '            }\n' +
+    '        }\n' +
+    '        private bool _showDebug;\n' +
+    '\n' +
+    '        #endregion\n' +
+    '\n' +
+    '        #region AdvertisingURLS\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Gets the environment specific URL for the advertising in the right\n' +
+    '        /// column of the home page.\n' +
+    '        /// </summary>\n' +
+    '        /// <returns></returns>\n' +
+    '        protected static string advertisingURLRightColumn\n' +
+    '        {\n' +
+    '            get\n' +
+    '            {\n' +
+    '                // Lazy loading/singleton implementation\n' +
+    '                if (_advertisingURLRightColumn == null)\n' +
+    '                {\n' +
+    '                    _advertisingURLRightColumn = "http://" + WebEnvironment.Instance.GetHostName("www") + "/GLOBALS/Ads/MarketPlace-Right-1st.aspx";\n' +
+    '                }\n' +
+    '                return _advertisingURLRightColumn;\n' +
+    '            }\n' +
+    '        }\n' +
+    '        private static string _advertisingURLRightColumn;\n' +
+    '\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Gets the environment specific URL for the advertising in the right\n' +
+    '        /// column of the home page.\n' +
+    '        /// </summary>\n' +
+    '        /// <returns></returns>\n' +
+    '        protected static string advertisingURLFooter\n' +
+    '        {\n' +
+    '            get\n' +
+    '            {\n' +
+    '                // Lazy loading/singleton implementation\n' +
+    '                if (_advertisingURLFooter == null)\n' +
+    '                {\n' +
+    '                    _advertisingURLFooter = "http://" + WebEnvironment.Instance.GetHostName("www") + "/GLOBALS/Ads/MarketPlace-Footer.aspx";\n' +
+    '                }\n' +
+    '                return _advertisingURLFooter;\n' +
+    '            }\n' +
+    '        }\n' +
+    '        private static string _advertisingURLFooter;\n' +
+    '\n' +
+    '        #endregion\n' +
+    '    }\n' +
+    '}\n';
+
+code = 'using System;\n' +
+    'using System.Collections.Generic;\n' +
+    'using System.Linq;\n' +
+    'using System.Text;\n' +
+    'using System.Net;\n' +
+    'using System.Runtime.Serialization;\n' +
+    'using System.Runtime.Serialization.Json;\n' +
+    'using System.Diagnostics;\n' +
+    'using System.ServiceModel.Channels;\n' +
+    'using System.IO;\n' +
+    'using System.Web;\n' +
+    'using System.Web.Script.Serialization;\n' +
+    'using Pmi.EnterpriseFramework.Configuration;\n' +
+    'using Pmi.WebApplication.MyPmi.Service.Result;\n' +
+    'using System.Web.Caching; \n' +
+    '\n' +
+    'namespace Pmi.WebApplication.MyPmi.Service\n' +
+    '{\n' +
+    '    /// <summary>\n' +
+    '    /// REST Service wrapper\n' +
+    '    /// </summary>\n' +
+    '    public static class RestService\n' +
+    '    {\n' +
+    '        /// <summary>\n' +
+    '        /// Cache name used to store the Authentication security token (requested\n' +
+    '        /// below at Application_Start) used for authenticated service requests.\n' +
+    '        /// </summary>\n' +
+    '        private const string ApplicationSecurityTokenCacheName = "appsecuritytoken";\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Applications\'s Security Token for EnterpriseService calls\n' +
+    '        /// </summary>\n' +
+    '        private static string ServiceSecurityToken\n' +
+    '        {\n' +
+    '            get\n' +
+    '            {\n' +
+    '                // Check for cached data first\n' +
+    '                object cachedAuthorization = HttpContext.Current.Cache.Get(RestService.ApplicationSecurityTokenCacheName);\n' +
+    '                if (cachedAuthorization == null)\n' +
+    '                {\n' +
+    '                    // Refresh data \n' +
+    '                    RefreshAuthorizationCallback(null, null, 0);\n' +
+    '                    cachedAuthorization = HttpContext.Current.Cache.Get(RestService.ApplicationSecurityTokenCacheName);\n' +
+    '                }\n' +
+    '                \n' +
+    '                // ST is required pre-fix\n' +
+    '                return (cachedAuthorization != null ? "ST" + (cachedAuthorization as string) : "");\n' +
+    '            }\n' +
+    '        }\n' +
+    '\n' +
+    '        public static void RefreshAuthorizationCallback(string key, object expiredItem, CacheItemRemovedReason reason)\n' +
+    '        {\n' +
+    '            string securityToken = null;\n' +
+    '\n' +
+    '            // Cache was expired, get new credentials\n' +
+    '            var credentials = new\n' +
+    '            {\n' +
+    '                Username = MyPmiConfigurationService.Instance.GetSetting().ApplicationUsername,\n' +
+    '                Password = MyPmiConfigurationService.Instance.GetSetting().ApplicationPassword\n' +
+    '            };\n' +
+    '\n' +
+    '            // Request and security token used for authenticated service requests\n' +
+    '            var service = RestService.Post<AuthenticationResult>("/user", credentials);\n' +
+    '            if (service == null || service.StatusCode != HttpStatusCode.OK || service.Result == null || string.IsNullOrEmpty(service.Result.SecurityToken))\n' +
+    '            {\n' +
+    '                if (service != null)\n' +
+    '                {\n' +
+    '                    Global.LogException(string.Format("Could not initialize authentication services. Invalid response returned from server: {0} {1} : {2}",\n' +
+    '                        (int)service.StatusCode, service.StatusCode, service.RawResponse));\n' +
+    '                }\n' +
+    '                else\n' +
+    '                {\n' +
+    '                    Global.LogException("Could not initialize authentication services.");\n' +
+    '                }\n' +
+    '\n' +
+    '                return;\n' +
+    '            }\n' +
+    '\n' +
+    '            // We have a valid token!\n' +
+    '            securityToken = service.Result.SecurityToken;\n' +
+    '\n' +
+    '            // Remove old cache if it exists\n' +
+    '            object cacheObject = HttpContext.Current.Cache.Get(RestService.ApplicationSecurityTokenCacheName);\n' +
+    '            if (cacheObject != null)\n' +
+    '            {\n' +
+    '                HttpContext.Current.Cache.Remove(RestService.ApplicationSecurityTokenCacheName);\n' +
+    '            }\n' +
+    '\n' +
+    '            // Store in Cache\n' +
+    '            HttpContext.Current.Cache.Add(\n' +
+    '                RestService.ApplicationSecurityTokenCacheName, securityToken, null, DateTime.Now.AddMonths(1), Cache.NoSlidingExpiration,\n' +
+    '                CacheItemPriority.NotRemovable, new CacheItemRemovedCallback(RefreshAuthorizationCallback));\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Return object containing both the HttpStatusCode and the deseralized response object \n' +
+    '        /// </summary>\n' +
+    '        /// <typeparam name="TExpected">Expected return type</typeparam>\n' +
+    '        public class RestResponse<TExpected>\n' +
+    '        {\n' +
+    '            public TExpected Result { get; set; }\n' +
+    '\n' +
+    '            public string RawResponse { get; set; }\n' +
+    '\n' +
+    '            public string ServiceUrl { get; set; }\n' +
+    '\n' +
+    '            public HttpStatusCode StatusCode { get; set; }\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// RESTful POST request with Authentication \n' +
+    '        /// </summary>\n' +
+    '        /// <typeparam name="TExpected">Expected return type. Determines which service to use.</typeparam>\n' +
+    '        /// <param name="serviceEndpoint">The absolute path and querystring/parameters of the service request.</param>\n' +
+    '        /// <param name="body">Appends JSON content. Can be null</param>\n' +
+    '        /// <returns>REST wrapper</returns>\n' +
+    '        public static RestResponse<TExpected> PostAuthorized<TExpected>(string serviceEndpoint, object body)\n' +
+    '        {\n' +
+    '            return Call<TExpected>(WebRequestMethods.Http.Post, serviceEndpoint, true, body);\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// RESTful GET request with Authentication \n' +
+    '        /// </summary>\n' +
+    '        /// <typeparam name="TExpected">Expected return type. Determines which service to use.</typeparam>\n' +
+    '        /// <param name="serviceEndpoint">The absolute path and querystring/parameters of the service request.</param>\n' +
+    '        /// <returns>REST wrapper</returns>\n' +
+    '        public static RestResponse<TExpected> GetAuthorized<TExpected>(string serviceEndpoint)\n' +
+    '        {\n' +
+    '            return Call<TExpected>(WebRequestMethods.Http.Get, serviceEndpoint, true, null);\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// RESTful POST request \n' +
+    '        /// </summary>\n' +
+    '        /// <typeparam name="TExpected">Expected return type. Determines which service to use.</typeparam>\n' +
+    '        /// <param name="serviceEndpoint">The absolute path and querystring/parameters of the service request.</param>\n' +
+    '        /// <param name="body">Appends JSON content. Can be null</param>\n' +
+    '        /// <returns>REST wrapper</returns>\n' +
+    '        public static RestResponse<TExpected> Post<TExpected>(string serviceEndpoint, object body)\n' +
+    '        {\n' +
+    '            return Call<TExpected>(WebRequestMethods.Http.Post, serviceEndpoint, false, body);\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// RESTful GET request\n' +
+    '        /// </summary>\n' +
+    '        /// <typeparam name="TExpected">Expected return type. Determines which service to use.</typeparam>\n' +
+    '        /// <param name="serviceEndpoint">The absolute path and querystring/parameters of the service request.</param>\n' +
+    '        /// <returns>REST wrapper</returns>\n' +
+    '        public static RestResponse<TExpected> Get<TExpected>(string serviceEndpoint)\n' +
+    '        {\n' +
+    '            return Call<TExpected>(WebRequestMethods.Http.Get, serviceEndpoint, false, null);\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Generic REST call\n' +
+    '        /// </summary>\n' +
+    '        /// <typeparam name="TExpected">Expected return type. Determines which service to use.</typeparam>\n' +
+    '        /// <param name="requestMethod">GET, POST, PUT, etc. (<see cref="WebRequestMethods.Http"/>)</param>\n' +
+    '        /// <param name="serviceEndpoint">The absolute path and querystring/parameters of the service request.</param>\n' +
+    '        /// <param name="includeAuthHeader">Appends the authentication ticket to the header.</param>\n' +
+    '        /// <param name="body">Appends JSON content. Can be null</param>\n' +
+    '        /// <returns>REST wrapper</returns>\n' +
+    '        public static RestResponse<TExpected> Call<TExpected>(string requestMethod, string serviceEndpoint, bool includeAuthHeader, object body)\n' +
+    '        {\n' +
+    '            if (string.IsNullOrEmpty(requestMethod))\n' +
+    '            {\n' +
+    '                throw new ArgumentNullException("requestMethod");\n' +
+    '            }\n' +
+    '            else if (string.IsNullOrEmpty(serviceEndpoint))\n' +
+    '            {\n' +
+    '                throw new ArgumentNullException("serviceEndpoint");\n' +
+    '            }\n' +
+    '\n' +
+    '            // Setup URL for service request\n' +
+    '            string serviceServerUrl = GetServiceUrl(typeof(TExpected)) + serviceEndpoint;\n' +
+    '\n' +
+    '//#if DEBUG\n' +
+    '//            // Ignore SSL certificate\n' +
+    '//            ServicePointManager.ServerCertificateValidationCallback += \n' +
+    '//                delegate(object s, \n' +
+    '//                    System.Security.Cryptography.X509Certificates.X509Certificate certificate, \n' +
+    '//                    System.Security.Cryptography.X509Certificates.X509Chain chain, \n' +
+    '//                    System.Net.Security.SslPolicyErrors sslPolicyErrors) { return true; };\n' +
+    '//#endif\n' +
+    '\n' +
+    '            // Create Request\n' +
+    '            HttpWebRequest request = WebRequest.Create(new Uri(serviceServerUrl)) as HttpWebRequest;\n' +
+    '            request.Method = requestMethod;\n' +
+    '            request.ContentType = "application/json; charset=utf-8";\n' +
+    '\n' +
+    '            // If the service call requires an authorization header\n' +
+    '            if (includeAuthHeader)\n' +
+    '            {\n' +
+    '                if (ServiceSecurityToken == null)\n' +
+    '                {\n' +
+    '                    Global.LogException(string.Format("Authenticated request failed because application could not be initialize security token. Type: {0}; URL: {1}", \n' +
+    '                        typeof(TExpected).Name, serviceServerUrl));\n' +
+    '                    return null;\n' +
+    '                }\n' +
+    '\n' +
+    '                // Add header for authenticated requests\n' +
+    '                request.Headers.Add("Authorization", ServiceSecurityToken);\n' +
+    '            }\n' +
+    '\n' +
+    '            // If there is BODY content\n' +
+    '            if (body != null) \n' +
+    '            {\n' +
+    '                string jsonBody = new JavaScriptSerializer().Serialize(body);\n' +
+    '\n' +
+    '                // Encode the parameters as form data:\n' +
+    '                byte[] formData = UTF8Encoding.UTF8.GetBytes(jsonBody);\n' +
+    '                request.ContentLength = formData.Length;\n' +
+    '\n' +
+    '                // Add the POST body content\n' +
+    '                using (Stream post = request.GetRequestStream())\n' +
+    '                {\n' +
+    '                    post.Write(formData, 0, formData.Length);\n' +
+    '                }\n' +
+    '            }\n' +
+    '            else if (string.Compare(requestMethod, WebRequestMethods.Http.Get, true) != 0) // if not GET\n' +
+    '            {\n' +
+    '                // No Form data (required for POST)\n' +
+    '                request.ContentLength = 0;\n' +
+    '            }\n' +
+    '\n' +
+    '            // Deserialize object from response\n' +
+    '            var responseResult = GetResponse<TExpected>(request);\n' +
+    '            if (responseResult != null)\n' +
+    '            {\n' +
+    '                // Append URL to result\n' +
+    '                responseResult.ServiceUrl = serviceServerUrl;\n' +
+    '            }\n' +
+    '            return responseResult;\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Handle and parse the response object into a deserialized form.\n' +
+    '        /// </summary>\n' +
+    '        /// <typeparam name="TExpected">Expected return type for the service call</typeparam>\n' +
+    '        /// <param name="request">Request ready to be submitted</param>\n' +
+    '        /// <returns>Wrapped REST response (see <see cref="RestResponse"/>)</returns>\n' +
+    '        private static RestResponse<TExpected> GetResponse<TExpected>(HttpWebRequest request)\n' +
+    '        {\n' +
+    '            try\n' +
+    '            {\n' +
+    '                // Process response\n' +
+    '                using (HttpWebResponse webResponse = (HttpWebResponse)request.GetResponse())\n' +
+    '                {\n' +
+    '                    if (webResponse == null)\n' +
+    '                    {\n' +
+    '                        Global.LogException("Response is null. URL: " + request.RequestUri.ToString());\n' +
+    '                        return null;\n' +
+    '                    }\n' +
+    '\n' +
+    '                    return ParseResponse<TExpected>(request, webResponse);\n' +
+    '                }\n' +
+    '            }\n' +
+    '            catch (WebException webException)\n' +
+    '            {\n' +
+    '                // Outside of experimental/third-party frameworks, the only way to catch non-200 (OK) return code \n' +
+    '                // responses, is to catch a WebException and check for an attached .Reponse object\n' +
+    '\n' +
+    '                // Ensure its an exception we can handle\n' +
+    '                HttpWebResponse httpWebResponse = (HttpWebResponse)webException.Response;\n' +
+    '                if (httpWebResponse == null)\n' +
+    '                {\n' +
+    '                    // Log exception\n' +
+    '                    Global.LogException(\n' +
+    '                        string.Format("URL: \'{0}\'\nAn error occurred while parsing the service response.",\n' +
+    '                            request.Address.AbsoluteUri),\n' +
+    '                        webException);\n' +
+    '\n' +
+    '                    return null;\n' +
+    '                }\n' +
+    '\n' +
+    '                return ParseResponse<TExpected>(request, httpWebResponse);\n' +
+    '            }\n' +
+    '            catch (Exception exception)\n' +
+    '            {\n' +
+    '                // Log exception\n' +
+    '                Global.LogException(\n' +
+    '                    string.Format("URL: \'{0}\'\nAn error occurred while parsing the response.",\n' +
+    '                        request.Address.AbsoluteUri),\n' +
+    '                    exception);\n' +
+    '\n' +
+    '                // continue with empty return object\n' +
+    '            }\n' +
+    '\n' +
+    '            return null;\n' +
+    '        }\n' +
+    '\n' +
+    '        private static RestResponse<TExpected> ParseResponse<TExpected>(HttpWebRequest request, HttpWebResponse httpWebResponse)\n' +
+    '        {\n' +
+    '            var restResponse = new RestResponse<TExpected>();\n' +
+    '\n' +
+    '            // Store HttpStatusCode from response\n' +
+    '            restResponse.StatusCode = httpWebResponse.StatusCode;\n' +
+    '\n' +
+    '            // Store contents (deserialized into return type and raw)\n' +
+    '            using (Stream responseStream = httpWebResponse.GetResponseStream())\n' +
+    '            {\n' +
+    '                using (MemoryStream memoryStream = new MemoryStream())\n' +
+    '                {\n' +
+    '                    // Read response into Memory Stream so we can read it multiple times\n' +
+    '                    var buffer = new byte[256];\n' +
+    '                    int read;\n' +
+    '                    while ((read = responseStream.Read(buffer, 0, buffer.Length)) > 0)\n' +
+    '                    {\n' +
+    '                        memoryStream.Write(buffer, 0, read);\n' +
+    '                    }\n' +
+    '                    memoryStream.Position = 0;\n' +
+    '\n' +
+    '                    // Store Raw response (we can\'t use using{} since that will close the memoryStream)\n' +
+    '                    var responseStreamReader = new StreamReader(memoryStream);\n' +
+    '                    restResponse.RawResponse = responseStreamReader.ReadToEnd();\n' +
+    '\n' +
+    '                    // Reset position of stream\n' +
+    '                    memoryStream.Position = 0;\n' +
+    '\n' +
+    '                    try\n' +
+    '                    {\n' +
+    '                        // Deserialize Object into return type\n' +
+    '                        var jsonWCF = new DataContractJsonSerializer(typeof(TExpected));\n' +
+    '                        restResponse.Result = (TExpected)jsonWCF.ReadObject(memoryStream);\n' +
+    '                    }\n' +
+    '                    catch (Exception exception)\n' +
+    '                    {\n' +
+    '                        // Log exception\n' +
+    '                        Global.LogException(\n' +
+    '                            string.Format("URL: \'{0}\'\nAttemping to deserialize response into return type. Response body: \n{1}",\n' +
+    '                                request.Address.AbsoluteUri,\n' +
+    '                                restResponse.RawResponse),\n' +
+    '                            exception);\n' +
+    '' +
+    '                        // continue with null .Result object\n' +
+    '                    }\n' +
+    '                }\n' +
+    '            }\n' +
+    '\n' +
+    '            return restResponse;\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Retrieve URL of the service based on the expected Return type\n' +
+    '        /// </summary>\n' +
+    '        /// <returns>Service URL</returns>\n' +
+    '        private static string GetServiceUrl(Type type)\n' +
+    '        {\n' +
+    '            if (type == typeof(AuthenticationResult))\n' +
+    '            {\n' +
+    '                return GetServiceUrl(ServiceName.AuthenticationService);\n' +
+    '            }\n' +
+    '            else if (type == typeof(CertificationResult))\n' +
+    '            {\n' +
+    '                return GetServiceUrl(ServiceName.CertificationService);\n' +
+    '            }\n' +
+    '            else if (type == typeof(MembershipResult))\n' +
+    '            {\n' +
+    '                return GetServiceUrl(ServiceName.MembershipService);\n' +
+    '            }\n' +
+    '            else if (type == typeof(SearchContentStatisticsResult))\n' +
+    '            {\n' +
+    '                return GetServiceUrl(ServiceName.SearchService);\n' +
+    '            }\n' +
+    '            else if (type == typeof(ProfileResult) || type == typeof(ProfileImageResult) || type == typeof(ProfileSetImageResult))\n' +
+    '            {\n' +
+    '                return GetServiceUrl(ServiceName.ProfileService);\n' +
+    '            }\n' +
+    '            else\n' +
+    '            {\n' +
+    '                // Make sure to throw if unknown return type was passed \n' +
+    '                throw new NotSupportedException("Return type \'" + type.Name + "\' is not supported");\n' +
+    '            }\n' +
+    '        }\n' +
+    '\n' +
+    '        /// <summary>\n' +
+    '        /// Retrieve URL of the service based on the service name (enum)\n' +
+    '        /// </summary>\n' +
+    '        /// <returns>Service URL</returns>\n' +
+    '        public static string GetServiceUrl(ServiceName service)\n' +
+    '        {\n' +
+    '            try\n' +
+    '            {\n' +
+    '                // Load the serive name from CoreEnvironment\n' +
+    '                string serviceName = Enum.GetName(service.GetType(), service);\n' +
+    '                MyPmiEndPoint endpoint = MyPmiConfigurationService.Instance.GetEndPoint(serviceName);\n' +
+    '                if (endpoint == null)\n' +
+    '                {\n' +
+    '                    throw new NullReferenceException(string.Format("Endpoint does not exist for {0}", serviceName));\n' +
+    '                }\n' +
+    '\n' +
+    '                return endpoint.Url;\n' +
+    '            }\n' +
+    '            catch (Exception exception)\n' +
+    '            {\n' +
+    '                throw exception;\n' +
+    '            }\n' +
+    '        }\n' +
+    '    }\n' +
+    '}\n';
+
+code = '#region Fark me\n' +
+    '\n' +
+    '/// <summary>\n' +
+    '/// Gets the environment specific URL for the advertising in the right\n' +
+    '/// column of the home page.\n' +
+    '/// </summary>\n' +
+    '/// <returns></returns>\n' +
+    'protected Object Method123_<MyType>(object s, EventArgs e, System.Web.UI.HtmlTextWriter writer)\n' +
+    '{\n' +
+    '    Session.Abandon();\n' +
+    '    System.Collections.ICollection a = new System.Collections.Generic.Dictionary<String, int>();\n' +
+    '    Int32 c = 1, b = 3;\n' +
+    '    Type f = typeof(Enum);\n' +
+    '    MyType wute;\n' +
+    '    Version d = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;\n' +
+    '    var subNavLink = this.FindControl("_Link") as HtmlGenericControl;\n' +
+    '    h p;\n' +
+    '    if (s is Int64) { int n = (Int32)b; }\n' +
+    '    var b = \'c\';\n' +
+    '    throw new Exception("hi < > ") as ApplicationException;\n' +
+    '}\n' +
+    '\n' +
+    'public enum h \n' +
+    '{ \n' +
+    '    happy,\n' +
+    '    sad\n' +
+    '}\n' +
+    '\n' +
+    'public class G : System.Web.UI.MasterPage { Enum j; Decimal eight;\n' +
+    '    Decimal one;\n' +
+    '    public decimal two;\n' +
+    '}\n' +
+    '\n' +
+    'public class G : System.Web.UI.MasterPage \n' +
+    '{ \n' +
+    '    Enum j; Decimal eight;\n' +
+    '    Decimal one;\n' +
+    '    public decimal two;\n' +
+    '}\n' +
+    '#if asdasd\n' +
+    '\n' +
+    '#else\n' +
+    '\n' +
+    '#endif\n' +
+    '\n' +
+    '/**/\n' +
+    'public class G \n' +
+    '{ \n' +
+    '    Enum j; Decimal eight;\n' +
+    '    Decimal one;\n' +
+    '    public decimal two;\n' +
+    '}\n' +
+    '\n' +
+    'var a = @"\n' +
+'waddup\n' +
+'wassup\n' +
+'however\n' +
+'";\n' +
+    '/*var a = @"\n' +
+'waddup\n' +
+'wassup\n' +
+'however\n' +
+'";*/\n' +
+    '#endregion\n';
+
+var escapes =
+[
+    [/(\\)([tnr0'"\\abfvxuU])/mg, function($0, $1) { return '&#92;' + $1.replace('"', '&quot;').replace("'", '&#39;'); } ],
+    [/(\/\/[^\r\n"]*(?:"|\/\*|\*\/).*)/g, function($0, $1) { return $1.replace(/"/g, '&quot;').replace(/'/g, '&#39;') } ],
+    [/(^\s*\/\/.*)?>/mg, function($0, $1) { return $1 ? $0 : '&gt;' } ],
+    [/(^\s*\/\/.*)?</mg, function($0, $1) { return $1 ? $0 : '&lt;<s></s>' } ],
+    [/(\/\*[\s\S]*?\*\/)/mg, function($0, $1) { return '<span class=comment>' + $1.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '</span>' } ],
+    [/"([^"]*)"/g, '<span class=string>&quot;$1&quot;</span>'],
+    [/(^\s*\/\/.*)?((?:{|;|,|:|\bclass\s|\benum\s)\s*)((?:[\w\d_]+\.)*)([\w\d_]+)(\s*(?:\s[\w_]|:|$))/mg, function($0, $1, $2, $3, $4, $5) { return $1 ? $0 : $2 + $3 + '<span class=type>' + $4 + '</span>' + $5 } ],
+    [/(^\s*\/\/.*)?((?:\s+|\()(?:as|is|new)\s+|(?:typeof\(|<s><\/s>|[=(]\s*\(|:)\s*)((?:[\w\d_]+\.)*)([\w\d_]+)(\s*(?:;|\)|\(|&lt;|&gt;|,|{))/mg, function($0, $1, $2, $3, $4, $5) { return $1 ? $0 : $2 + $3 + '<span class=type>' + $4 + '</span>' + $5 } ],
+    [/(^\s*\/\/.*)?(\b|#)(region|endregion|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|endif|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b(?!([^<]+)?>)/mg, function($0, $1, $2, $3) { return $1 ? $0 : '<span class=keyword>' + $2 + $3 + '</span>' } ],
+    [/(?:(\/{3})|(\/{2}))(\s*<\/?[^>\r\n]+>)?([^<\n\r]*)(<[^\n\r]+)?/mg,
+        function($0, $1, $2, $3, $4, $5) {
+            return ($1 ? '<span class=doc-comment>' + $1 + '</span>' : '<span class=comment>' + $2 + '</span>') +
+            ($3 ? '<span class=doc-comment>' + $3.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</span>' : '') +
+            ($4 ? '<span class=comment>' + $4 + '</span>' : '') +
+            ($5 ? '<span class=doc-comment>' + $5.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</span>' : '');
+        } ]
+];
+
+var l = escapes.length;
+for(var i = 0; i < l; i++) {
+    code = code.replace(escapes[i][0], escapes[i][1]);
+}
+
+if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
+    document.getElementById('content').outerHTML = '<pre class="content" id="content">' + code + '</pre>';
+} else {
+    document.getElementById('content').innerHTML = code;
+}
+
+</script>

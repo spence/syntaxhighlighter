@@ -1,48 +1,47 @@
 <!doctype html>
-
 <style>
-.code { position:relative; }
-.code .line-numbers { width: 45px; position: absolute; top: 0; left: 0; bottom: 0; border-right: 1px solid #A5A5A5; overflow: hidden; }
-.code .line-numbers .ones { background: url(vs2010-lines-1s.gif) repeat-y; width: 7px; position: absolute; top: -16px; right: 10px; bottom: 0; }
-.code .line-numbers .tens { background: url(vs2010-lines-10s-2.gif) repeat-y; width: 7px; position: absolute; top: 144px; right: 17px; bottom: 0; }
-.code .line-numbers .hundreds { background: url(vs2010-lines-100s.gif) repeat-y; width: 7px; position: absolute; top: 1584px; right: 24px; bottom: 0; }
-/*.code .line-numbers .thousands { background: url(vs2010-lines-1000s.gif) repeat-y; width: 7px; position: absolute; top: 0; right: 31px; bottom: 0; } */
-.code .content { white-space: pre; font-family: Consolas, Arial; font-size: 13px; line-height: 16px; margin-left: 53px; }
-.code .content .type { color: #2B91AF; }
-.code .content .keyword { color: #0000FF; }
-.code .content .comment, .code .content .comment * { color: #008000 !important; }
-.code .content .doc-comment, .code .content .doc-comment * { color: #808080 !important; }
-.code .content .string, .code .content .string * { color: #A31515 !important; }
-.code s { text-decoration: none !important; }
+  .code { position: relative; }
+  .code .line-numbers { width: 45px; position: absolute; top: 0; left: 0; bottom: 0; border-right: 1px solid #A5A5A5; overflow: hidden; }
+  .code .line-numbers .ones { background: url(vs2010-lines-1s.gif) repeat-y; width: 7px; position: absolute; top: -16px; right: 10px; bottom: 0; }
+  .code .line-numbers .tens { background: url(vs2010-lines-10s-2.gif) repeat-y; width: 7px; position: absolute; top: 144px; right: 17px; bottom: 0; }
+  .code .line-numbers .hundreds { background: url(vs2010-lines-100s.gif) repeat-y; width: 7px; position: absolute; top: 1584px; right: 24px; bottom: 0; }
+  /*.code .line-numbers .thousands { background: url(vs2010-lines-1000s.gif) repeat-y; width: 7px; position: absolute; top: 0; right: 31px; bottom: 0; } */
+  .code .content { white-space: pre; font-family: Consolas, Arial; font-size: 13px; line-height: 16px; margin-left: 53px; }
+  .code .content .type { color: #2B91AF; }
+  .code .content .keyword { color: #0000FF; }
+  .code .content .comment, .code .content .comment * { color: #008000 !important; }
+  .code .content .doc-comment, .code .content .doc-comment * { color: #808080 !important; }
+  .code .content .string, .code .content .string * { color: #A31515 !important; }
+  .code s { text-decoration: none !important; }
+  .code .content br { display: none; }
 </style>
-
 <div class="code">
-    <div class="line-numbers">
-        <div class="thousands">
-            
-        </div>
-        <div class="hundreds"></div>
-        <div class="tens"></div>
-        <div class="ones"></div>
+  <div class="line-numbers">
+    <div class="thousands">
     </div>
-    <div class="content" id="content"><span class="doc-comment">/// &lt;summary&gt;</span>
-<span class="doc-comment">///</span> <span class="comment">Initialize page binding and control values</span>
-<span class="doc-comment">/// &lt;/summary&gt;</span>
-<span class="keyword">protected</span> <span class="keyword">void</span> Page_Load(<span class="keyword">object</span> sender, <span class="type">EventArgs</span> e)
-{
-    <span class="keyword">var</span> masterPage = Page.Master <span class="keyword">as</span> <span class="type">MyPmi</span>;
-
-    masterPage.PageTitle = <span class="string">&quot;myPMI Events | Project Management Institute&quot;</span>;
-
-    <span class="comment">// Update the Sub Navigation </span>
-    masterPage.SetSubNavigationPage(<span class="string">&quot;Events&quot;</span>);
-} </div>
+    <div class="hundreds">
+    </div>
+    <div class="tens">
+    </div>
+    <div class="ones">
+    </div>
+  </div>
+  <div class="content" id="content">
+    <span class="doc-comment">/// &lt;summary&gt;</span> <span class="doc-comment">///</span>
+    <span class="comment">Initialize page binding and control values</span> <span class="doc-comment">
+      /// &lt;/summary&gt;</span> <span class="keyword">protected</span> <span class="keyword">
+        void</span> Page_Load(<span class="keyword">object</span> sender, <span class="type">
+          EventArgs</span> e) { <span class="keyword">var</span> masterPage = Page.Master
+    <span class="keyword">as</span> <span class="type">MyPmi</span>; masterPage.PageTitle
+    = <span class="string">&quot;myPMI Events | Project Management Institute&quot;</span>;
+    <span class="comment">// Update the Sub Navigation </span>masterPage.SetSubNavigationPage(<span
+      class="string">&quot;Events&quot;</span>); }
+  </div>
 </div>
-
 <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>-->
 <script>
 
-    var code = 'using System;\n' +
+  var code = 'using System;\n' +
     'using System.Web;\n' +
     'using System.Web.Security;\n' +
     'using Pmi.EnterpriseFramework.Web;\n' +
@@ -200,7 +199,7 @@
     '    }\n' +
     '}\n';
 
-code = 'using System;\n' +
+  code = 'using System;\n' +
     'using System.Collections.Generic;\n' +
     'using System.Linq;\n' +
     'using System.Text;\n' +
@@ -227,7 +226,7 @@ code = 'using System;\n' +
     '        /// Cache name used to store the Authentication security token (requested\n' +
     '        /// below at Application_Start) used for authenticated service requests.\n' +
     '        /// </summary>\n' +
-    '        private const string ApplicationSecurityTokenCacheName = "appsecuritytoken";\n' +
+    '        private const string ApplicationSecurityTokenCacheName = " \\" // appsecuritytoken"; // if test string \n' +
     '\n' +
     '        /// <summary>\n' +
     '        /// Applications\'s Security Token for EnterpriseService calls\n' +
@@ -470,7 +469,7 @@ code = 'using System;\n' +
     '                {\n' +
     '                    // Log exception\n' +
     '                    Global.LogException(\n' +
-    '                        string.Format("URL: \'{0}\'\nAn error occurred while parsing the service response.",\n' +
+    '                        string.Format("URL: \'{0}\'\\nAn error occurred while parsing the service response.",\n' +
     '                            request.Address.AbsoluteUri),\n' +
     '                        webException);\n' +
     '\n' +
@@ -483,7 +482,7 @@ code = 'using System;\n' +
     '            {\n' +
     '                // Log exception\n' +
     '                Global.LogException(\n' +
-    '                    string.Format("URL: \'{0}\'\nAn error occurred while parsing the response.",\n' +
+    '                    string.Format("URL: \'{0}\'\\nAn error occurred while parsing the response.",\n' +
     '                        request.Address.AbsoluteUri),\n' +
     '                    exception);\n' +
     '\n' +
@@ -531,7 +530,7 @@ code = 'using System;\n' +
     '                    {\n' +
     '                        // Log exception\n' +
     '                        Global.LogException(\n' +
-    '                            string.Format("URL: \'{0}\'\nAttemping to deserialize response into return type. Response body: \n{1}",\n' +
+    '                            string.Format("URL: \'{0}\'\\nAttemping to deserialize response into return type. Response body: \\n{1}",\n' +
     '                                request.Address.AbsoluteUri,\n' +
     '                                restResponse.RawResponse),\n' +
     '                            exception);\n' +
@@ -603,7 +602,7 @@ code = 'using System;\n' +
     '    }\n' +
     '}\n';
 
-code = '#region Fark me\n' +
+  code2 = '#region Fark me\n' +
     '\n' +
     '/// <summary>\n' +
     '/// Gets the environment specific URL for the advertising in the right\n' +
@@ -622,7 +621,8 @@ code = '#region Fark me\n' +
     '    h p;\n' +
     '    if (s is Int64) { int n = (Int32)b; }\n' +
     '    var b = \'c\';\n' +
-    '    throw new Exception("hi < > ") as ApplicationException;\n' +
+    '    throw new Exception("hi < > ") as ApplicationException\n' +
+    '    ;\n' +
     '}\n' +
     '\n' +
     'public enum h \n' +
@@ -636,7 +636,9 @@ code = '#region Fark me\n' +
     '    public decimal two;\n' +
     '}\n' +
     '\n' +
-    'public class G : System.Web.UI.MasterPage \n' +
+    '[System.Runtime.Serialization.DataContract(Name = "Spencer", IsReference=true),\n' +
+    'System.ComponentModel.DefaultValue(true)]\n' +
+    'public class G : System.Web.UI.MasterPage, IConvertible, System.ComponentModel.IContainer \n' +
     '{ \n' +
     '    Enum j; Decimal eight;\n' +
     '    Decimal one;\n' +
@@ -646,57 +648,61 @@ code = '#region Fark me\n' +
     '\n' +
     '#else\n' +
     '\n' +
-    '#endif\n' +
     '\n' +
     '/**/\n' +
-    'public class G \n' +
+    'public struct G \n' +
     '{ \n' +
-    '    Enum j; Decimal eight;\n' +
+    '    Enum j; Decimal eight; Decimal eight;\n' +
     '    Decimal one;\n' +
     '    public decimal two;\n' +
     '}\n' +
     '\n' +
-    'var a = @"\n' +
-'waddup\n' +
-'wassup\n' +
-'however\n' +
-'";\n' +
+    'var b = \'\\x4\'; /*\n' +
+    'Response.End();\n' +
+    '// */\n' +
+    'Response.End();\n' +
+    '\n' +
     '/*var a = @"\n' +
-'waddup\n' +
-'wassup\n' +
-'however\n' +
-'";*/\n' +
+    'commented multiline string\n' +
+    'test chars: \' \\\' " \\" "" """  \\123 \\x5B \\x4e00 \\n \\t \\r \\f \\v \\u0001DE \n' +
+    '";*/\n' +
+    'var a = @"\n' +
+    'multiline string\n' +
+    'test chars: \' \\ \\x5B " + @"\\x4e00 \\n \\t \\r \\f \\v \\u0001DE \n' +
+    '";\n' +
+    'var a = "test chars: \' \\\' \\" \\\\\\" \\x5B \\x4e00 \\n \\t \\r \\f \\v \\u0001DE";\n' +
+    '                return (cachedAuthorization != null ? "ST" + (cachedAuthorization as string) : "");\n' +
     '#endregion\n';
 
-var escapes =
+  var escapes =
 [
-    [/(\\)([tnr0'"\\abfvxuU])/mg, function($0, $1) { return '&#92;' + $1.replace('"', '&quot;').replace("'", '&#39;'); } ],
-    [/(\/\/[^\r\n"]*(?:"|\/\*|\*\/).*)/g, function($0, $1) { return $1.replace(/"/g, '&quot;').replace(/'/g, '&#39;') } ],
-    [/(^\s*\/\/.*)?>/mg, function($0, $1) { return $1 ? $0 : '&gt;' } ],
-    [/(^\s*\/\/.*)?</mg, function($0, $1) { return $1 ? $0 : '&lt;<s></s>' } ],
-    [/(\/\*[\s\S]*?\*\/)/mg, function($0, $1) { return '<span class=comment>' + $1.replace(/"/g, '&quot;').replace(/'/g, '&#39;') + '</span>' } ],
-    [/"([^"]*)"/g, '<span class=string>&quot;$1&quot;</span>'],
-    [/(^\s*\/\/.*)?((?:{|;|,|:|\bclass\s|\benum\s)\s*)((?:[\w\d_]+\.)*)([\w\d_]+)(\s*(?:\s[\w_]|:|$))/mg, function($0, $1, $2, $3, $4, $5) { return $1 ? $0 : $2 + $3 + '<span class=type>' + $4 + '</span>' + $5 } ],
-    [/(^\s*\/\/.*)?((?:\s+|\()(?:as|is|new)\s+|(?:typeof\(|<s><\/s>|[=(]\s*\(|:)\s*)((?:[\w\d_]+\.)*)([\w\d_]+)(\s*(?:;|\)|\(|&lt;|&gt;|,|{))/mg, function($0, $1, $2, $3, $4, $5) { return $1 ? $0 : $2 + $3 + '<span class=type>' + $4 + '</span>' + $5 } ],
-    [/(^\s*\/\/.*)?(\b|#)(region|endregion|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|endif|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b(?!([^<]+)?>)/mg, function($0, $1, $2, $3) { return $1 ? $0 : '<span class=keyword>' + $2 + $3 + '</span>' } ],
+    [/\\([\\tnr\d'"abfvx])/mg, function ($0, $1) { return '&#92;' + $1.replace('"', '&quot;').replace("'", '&#39;'); } ],
+    [/("[^\r\n"]*)?(\/\/[^\r\n"]*(?:"|'|\/\*|\*\/).*)/g, function ($0, $1, $2) { return $1 ? $0 : $2.replace(/"/g, '&quot;').replace(/'/g, '&#39;') } ],
+    [/(^\s*\/\/.*)?>/mg, function ($0, $1) { return $1 ? $0 : '&gt;' } ],
+    [/(^\s*\/\/.*)?</mg, function ($0, $1) { return $1 ? $0 : '&lt;<br>' } ],
+    [/(\/\*[\s\S]*?\*\/)/mg, function ($0, $1) { return '<span class=comment>' + $1.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/\//g, '&#47;') + '</span>' } ],
+    [/("[^"]*"|'[^']*')/g, function ($0, $1) { return '<span class=string>' + $1.replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/\//g, '&#47;') + '</span>' } ],
+    [/(\/\/.*)?((?:{|;|,|:|[\w\s]*?\bclass\s|[\w\s]*?\benum\s|[\w\s]*?\bstruct\s|^)\s*)((?:[\w\d_]+\.)*)([\w\d_]+)(\s*(?:\s[\w_]|:|{))/mg, function ($0, $1, $2, $3, $4, $5) { return $1 ? $0 : $2 + $3 + '<span class=type>' + $4 + '</span>' + $5 } ],
+    [/(\/\/.*)?((?:\s+|\()(?:as|is|new)\s+|(?:typeof\(|&lt;<br>|[=(]\s*\(|:)\s*)((?:[\w\d_]+\.)*)([\w\d_]+)(\s*(?:;|\)|\(|&lt;|&gt;|,|{))/mg, function ($0, $1, $2, $3, $4, $5) { return $1 ? $0 : $2 + $3 + '<span class=type>' + $4 + '</span>' + $5 } ],
+    [/(\/\/.*)?(\b|#)(region|endregion|abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|endif|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b(?!([^<]+)?>)/mg, function ($0, $1, $2, $3) { return $1 ? $0 : '<span class=keyword>' + $2 + $3 + '</span>' } ],
     [/(?:(\/{3})|(\/{2}))(\s*<\/?[^>\r\n]+>)?([^<\n\r]*)(<[^\n\r]+)?/mg,
-        function($0, $1, $2, $3, $4, $5) {
-            return ($1 ? '<span class=doc-comment>' + $1 + '</span>' : '<span class=comment>' + $2 + '</span>') +
+        function ($0, $1, $2, $3, $4, $5) {
+          return ($1 ? '<span class=doc-comment>' + $1 + '</span>' : '<span class=comment>' + $2 + '</span>') +
             ($3 ? '<span class=doc-comment>' + $3.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</span>' : '') +
             ($4 ? '<span class=comment>' + $4 + '</span>' : '') +
             ($5 ? '<span class=doc-comment>' + $5.replace(/</g, "&lt;").replace(/>/g, "&gt;") + '</span>' : '');
         } ]
 ];
 
-var l = escapes.length;
-for(var i = 0; i < l; i++) {
+  var l = escapes.length;
+  for (var i = 0; i < l; i++) {
     code = code.replace(escapes[i][0], escapes[i][1]);
-}
+  }
 
-if(/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
+  if (/MSIE (\d+\.\d+);/.test(navigator.userAgent)) {
     document.getElementById('content').outerHTML = '<pre class="content" id="content">' + code + '</pre>';
-} else {
+  } else {
     document.getElementById('content').innerHTML = code;
-}
+  }
 
 </script>

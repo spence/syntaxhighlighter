@@ -1,0 +1,13 @@
+﻿.c-sharp { position: relative; }
+.c-sharp .line-numbers { width: 45px; position: absolute; top: 0; left: 0; bottom: 0; border-right: 1px solid #A5A5A5; overflow: hidden; }
+.c-sharp .line-numbers .ones { background: url(vs2010-lines-1s.gif) repeat-y; width: 7px; position: absolute; top: -16px; right: 10px; bottom: 0; }
+.c-sharp .line-numbers .tens { background: url(vs2010-lines-10s.gif) repeat-y; width: 7px; position: absolute; top: 144px; right: 17px; bottom: 0; }
+.c-sharp .line-numbers .hundreds { background: url(vs2010-lines-100s.gif) repeat-y; width: 7px; position: absolute; top: 1584px; right: 24px; bottom: 0; }
+/*.c-sharp .line-numbers .thousands { background: url(vs2010-lines-1000s.gif) repeat-y; width: 7px; position: absolute; top: 0; right: 31px; bottom: 0; } */
+.c-sharp .content { white-space: pre; font-family: Consolas, Arial; font-size: 13px; line-height: 16px; margin-left: 53px; }
+.c-sharp .content .type { color: #2B91AF; }
+.c-sharp .content .keyword { color: #0000FF; }
+.c-sharp .content .comment, .c-sharp .content .comment * { color: #008000 !important; }
+.c-sharp .content .doc-comment, .c-sharp .content .doc-comment * { color: #808080 !important; }
+.c-sharp .content .string, .c-sharp .content .string * { color: #A31515 !important; }
+.c-sharp .content br { display: none; }

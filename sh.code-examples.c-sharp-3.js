@@ -1,4 +1,4 @@
-﻿setTimeout(function() { hs.highlight('#region Fark me\n' +
+﻿hs.highlight('#region Fark me\n' +
     '\n' +
     '/// <summary>\n' +
     '/// Gets the environment specific URL for the advertising in the right\n' +
@@ -68,4 +68,4 @@
     '";\n' +
     'var a = "test chars: \' \\\' \\" \\\\\\" \\x5B \\x4e00 \\n \\t \\r \\f \\v \\u0001DE";\n' +
     '                return (cachedAuthorization != null ? "ST" + (cachedAuthorization as string) : "");\n' +
-    '#endregion\n'); }, 0);
+    '#endregion\n');

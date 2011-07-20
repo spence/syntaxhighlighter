@@ -1,4 +1,4 @@
-setTimeout(function(){ hs.highlight('import csv\n' +
+hs.highlight('import csv\n' +
     '\n' +
     '# write stocks data as comma-separated values\n' +
     'writer = csv.writer(open(\'stocks.csv\', \'wb\', buffering=0))\n' +
@@ -110,4 +110,4 @@ setTimeout(function(){ hs.highlight('import csv\n' +
     '    fp.close()\n' +
     '\n' +
     'if __name__ == "__main__":\n' +
-    '    main()\n'); }, 0);
+    '    main()\n');

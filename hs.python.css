@@ -2,7 +2,7 @@
 .python .line-numbers { width: 45px; position: absolute; top: 0px; left: 0; bottom: 0px; overflow: hidden; }
 .python .line-numbers .ones { background: url(python-monokai-lines-1s.gif) repeat-y; width: 7px; position: absolute; top: 0px; right: 10px; bottom: 0; }
 .python .line-numbers .tens { background: url(python-monokai-lines-10s.gif) repeat-y; width: 7px; position: absolute; top: 144px; right: 17px; bottom: 0; }
-.python .line-numbers .hundreds { background: url(python-monokai-lines-100s.gif) repeat-y; width: 7px; position: absolute; top: 1584px; right: 24px; bottom: 0; }
+/*.python .line-numbers .hundreds { background: url(python-monokai-lines-100s.gif) repeat-y; width: 7px; position: absolute; top: 1584px; right: 24px; bottom: 0; }*/
 /*.python .line-numbers .thousands { background: url(python-monokai-lines-1000s.gif) repeat-y; width: 7px; position: absolute; top: 0; right: 31px; bottom: 0; } */
 .python .content { white-space: pre; font-family: Consolas, Arial; font-size: 13px; line-height: 16px; margin-left: 53px; color: #F6F3E8; }
 .python .content .type { color: #66D9EF; }

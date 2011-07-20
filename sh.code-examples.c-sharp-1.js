@@ -1,4 +1,4 @@
-﻿setTimeout(function() { hs.highlight('using System;\n' +
+﻿hs.highlight('using System;\n' +
     'using System.Web;\n' +
     'using System.Web.Security;\n' +
     'using Pmi.EnterpriseFramework.Web;\n' +
@@ -154,4 +154,4 @@
     '\n' +
     '        #endregion\n' +
     '    }\n' +
-    '}\n'); }, 0);
+    '}\n');

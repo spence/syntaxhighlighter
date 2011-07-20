@@ -1,4 +1,4 @@
-﻿setTimeout(function(){ hs.highlight('using System;\n' +
+﻿hs.highlight('using System;\n' +
     'using System.Collections.Generic;\n' +
     'using System.Linq;\n' +
     'using System.Text;\n' +
@@ -399,4 +399,4 @@
     '            }\n' +
     '        }\n' +
     '    }\n' +
-    '}\n'); }, 0);
+    '}\n');

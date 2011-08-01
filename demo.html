@@ -18,17 +18,17 @@
 
 <!-- Syntax Highlighter (original, right?) -->
 <script src="sh.js"></script>
-<link href="hs.python.css" type="text/css" rel="stylesheet" />
-<link href="hs.c-sharp.css" type="text/css" rel="stylesheet" />
 
-<script src="sh.syntax.python.js"></script>
-<!--<script src="sh.syntax.c-sharp.js"></script>-->
-
-<!--<script src="sh.code-examples.c-sharp-1.js"></script>-->
-<!--<script src="sh.code-examples.c-sharp-2.js"></script>-->
-<!--<script src="sh.code-examples.c-sharp-3.js"></script>-->
-<script src="sh.code-examples.python-1.js"></script>
-<!--<script src="sh.code-examples.python-2.js"></script>-->
+<script> 
+hs.highlight('python', '#!/usr/bin/env python\n' +
+'# This program adds up integers in the command line\n' +
+'import sys\n' +
+'try:\n' +
+'    total = sum(int(arg) for arg in sys.argv[1:])\n' +
+'    print \'sum =\', total\n' +
+'except ValueError:\n' +
+'    print \'Please supply integer arguments\'\n');
+</script>
 
 </body>
 </html>

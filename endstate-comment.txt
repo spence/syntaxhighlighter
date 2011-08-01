@@ -1,0 +1,3 @@
+[code size="+" size="10px" lang="html+js" edit="disabled"]
+
+[/code]

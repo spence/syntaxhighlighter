@@ -1,0 +1,452 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+<title>Sublime Text - Buy</title>
+<link rel="stylesheet" type="text/css" href="sublime.css">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<script>
+function updateBusiness()
+{
+	var e = document.getElementById('isbus');
+	var licenseName = document.getElementById('licenseName');
+
+	licenseName.disabled = !e.checked;
+
+	if (!licenseName.disabled)
+		licenseName.focus();
+}
+
+function selectBusiness()
+{
+	var e = document.getElementById('isbus');
+	e.checked = true;
+	updateBusiness();
+}
+
+function updatePurchase()
+{
+	var singleCheck = document.getElementById('issingle');
+	var tenCheck = document.getElementById('is10pack');
+	var s = document.getElementById('single');
+	var t = document.getElementById('10pack');
+	s.disabled = !singleCheck.checked;
+	t.disabled = !tenCheck.checked;
+
+	updateTotal();
+}
+
+function updateQuantityControls(chk, num)
+{
+	if (num.value == "" || isNaN(parseInt(num.value)) || parseInt(num.value <= 0))
+	{
+		chk.checked = false;
+		num.disabled = true;
+		num.value = "0";
+	}
+	else
+	{
+		num.value = parseInt(num.value)
+	}
+}
+
+function updateQuantity()
+{
+	var singleCheck = document.getElementById('issingle');
+	var tenCheck = document.getElementById('is10pack');
+	var s = document.getElementById('single');
+	var t = document.getElementById('10pack');
+
+	updateQuantityControls(singleCheck, s);
+	updateQuantityControls(tenCheck, t);
+
+	updateTotal();
+}
+
+function beginMonitor()
+{
+	updateTotal();
+	window.setTimeout(beginMonitor, 500);
+}
+
+function updateTotal()
+{
+	var singleCheck = document.getElementById('issingle');
+	var tenCheck = document.getElementById('is10pack');
+	var s = document.getElementById('single');
+	var t = document.getElementById('10pack');
+
+	var total = 0;
+
+	if (singleCheck.checked && !isNaN(parseInt(s.value)) && parseInt(s.value) > 0)
+		total += parseInt(s.value) * 59;
+	if (tenCheck.checked && !isNaN(parseInt(t.value)) && parseInt(t.value) > 0)
+		total += parseInt(t.value) * 500;
+
+	document.getElementById('total').innerHTML = total;
+	document.getElementById('ftotal').value = total;
+}
+
+function validValue(id)
+{
+	return document.getElementById(id).value != '';
+}
+
+function validateForm()
+{
+	var singleCheck = document.getElementById('issingle');
+	var tenCheck = document.getElementById('is10pack');
+	var s = document.getElementById('single');
+	var t = document.getElementById('10pack');
+
+	if (!singleCheck.checked)
+		s.value = '';
+	if (!tenCheck.checked)
+		t.value = '';
+
+	updateTotal();
+
+	if (!validValue('name'))
+	{
+		alert("Please enter a name");
+		return false;
+	}
+
+	if (!validValue('email'))
+	{
+		alert("Please enter an email address");
+		return false;
+	}
+
+	if (document.getElementById('isbus').checked && !validValue('licenseName'))
+	{
+		alert("Please enter a business name");
+		return false;
+	}
+
+	if (!(parseInt(document.getElementById('ftotal').value) > 0))
+	{
+		alert("You have to buy at least one! :)");
+
+		return false;
+	}
+
+	return true;
+}
+
+function doSubmit()
+{
+	if (validateForm())
+		document.getElementById('buyform').submit()
+}
+
+</script>
+</head>
+<body onload="beginMonitor()">
+
+<center>
+
+<div class="barmiddle" style="width: 905px"><div class="barleft"><div class="barright">
+<a class="barlink" href="/">Home</a>
+<a class="barlink" href="/download">Download</a>
+<a class="barlink" href="/buy">Buy</a>
+<a class="barlink" href="/blog/">Blog</a>
+<a class="barlink" href="/forum/">Forum</a>
+<a class="barlink" href="/support">Support</a>
+</div></div></div>
+
+
+<h1>Buy</h1>
+
+<div style="width: 600px;">
+
+<div style="text-align: left">
+<p>Sublime Text may be downloaded and evaluated for free, however a license must be purchased for continued use.</p>
+
+<p>All upgrades to Sublime Text are currently free for registered users. If a paid upgrade is released within a year of purchasing a license, you're automatically entitled to that for free too. Licenses bought now will be valid for Sublime Text 2 when it's released.</p>
+
+<div class="code-border">
+
+<div id="code">
+    <div class="line-numbers">
+        <div class="thousands"></div>
+        <div class="hundreds"></div>
+        <div class="tens"></div>
+        <div class="ones"></div>
+    </div>
+    <pre class="content" id="content">#!/usr/bin/env python
+#
+# Copyright 2010 Facebook
+#
+# Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an &quot;AS IS&quot; BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
+&quot;&quot;&quot;Python client library for the Facebook Platform.
+
+This client library is designed to support the Graph API and the official
+Facebook JavaScript SDK, which is the canonical way to implement
+Facebook authentication. Read more about the Graph API at
+http://developers.facebook.com/docs/api. You can download the Facebook
+JavaScript SDK at http://github.com/facebook/connect-js/.
+
+If your application is using Google AppEngine&#39;s webapp framework, your
+usage of this module might look like this:
+
+    user = facebook.get_user_from_cookie(self.request.cookies, key, secret)
+    if user:
+        graph = facebook.GraphAPI(user[&quot;access_token&quot;])
+        profile = graph.get_object(&quot;me&quot;)
+        friends = graph.get_connections(&quot;me&quot;, &quot;friends&quot;)
+
+&quot;&quot;&quot;
+
+import cgi
+import hashlib
+import time
+import urllib
+
+# Find a JSON parser
+try:
+    import json
+    _parse_json = lambda s: json.loads(s)
+except ImportError:
+    try:
+        import simplejson
+        _parse_json = lambda s: simplejson.loads(s)
+    except ImportError:
+        # For Google AppEngine
+        from django.utils import simplejson
+        _parse_json = lambda s: simplejson.loads(s)
+
+
+class GraphAPI(object):
+    &quot;&quot;&quot;A client for the Facebook Graph API.
+
+    See http://developers.facebook.com/docs/api for complete documentation
+    for the API.
+
+    The Graph API is made up of the objects in Facebook (e.g., people, pages,
+    events, photos) and the connections between them (e.g., friends,
+    photo tags, and event RSVPs). This client provides access to those
+    primitive types in a generic way. For example, given an OAuth access
+    token, this will fetch the profile of the active user and the list
+    of the user&#39;s friends:
+
+       graph = facebook.GraphAPI(access_token)
+       user = graph.get_object(&quot;me&quot;)
+       friends = graph.get_connections(user[&quot;id&quot;], &quot;friends&quot;)
+
+    You can see a list of all of the objects and connections supported
+    by the API at http://developers.facebook.com/docs/reference/api/.
+
+    You can obtain an access token via OAuth or by using the Facebook
+    JavaScript SDK. See http://developers.facebook.com/docs/authentication/
+    for details.
+
+    If you are using the JavaScript SDK, you can use the
+    get_user_from_cookie() method below to get the OAuth access token
+    for the active user from the cookie saved by the SDK.
+    &quot;&quot;&quot;
+    def __init__(self, access_token=None):
+        self.access_token = access_token
+
+    def get_object(self, id, **args):
+        &quot;&quot;&quot;Fetchs the given object from the graph.&quot;&quot;&quot;
+        return self.request(id, args)
+
+    def get_objects(self, ids, **args):
+        &quot;&quot;&quot;Fetchs all of the given object from the graph.
+
+        We return a map from ID to object. If any of the IDs are invalid,
+        we raise an exception.
+        &quot;&quot;&quot;
+        args[&quot;ids&quot;] = &quot;,&quot;.join(ids)
+        return self.request(&quot;&quot;, args)
+
+    def get_connections(self, id, connection_name, **args):
+        &quot;&quot;&quot;Fetchs the connections for given object.&quot;&quot;&quot;
+        return self.request(id + &quot;/&quot; + connection_name, args)
+
+    def put_object(self, parent_object, connection_name, **data):
+        &quot;&quot;&quot;Writes the given object to the graph, connected to the given parent.
+
+        For example,
+
+            graph.put_object(&quot;me&quot;, &quot;feed&quot;, message=&quot;Hello, world&quot;)
+
+        writes &quot;Hello, world&quot; to the active user&#39;s wall. Likewise, this
+        will comment on a the first post of the active user&#39;s feed:
+
+            feed = graph.get_connections(&quot;me&quot;, &quot;feed&quot;)
+            post = feed[&quot;data&quot;][0]
+            graph.put_object(post[&quot;id&quot;], &quot;comments&quot;, message=&quot;First!&quot;)
+
+        See http://developers.facebook.com/docs/api#publishing for all of
+        the supported writeable objects.
+
+        Most write operations require extended permissions. For example,
+        publishing wall posts requires the &quot;publish_stream&quot; permission. See
+        http://developers.facebook.com/docs/authentication/ for details about
+        extended permissions.
+        &quot;&quot;&quot;
+        assert self.access_token, &quot;Write operations require an access token&quot;
+        return self.request(parent_object + &quot;/&quot; + connection_name, post_args=data)
+
+    def put_wall_post(self, message, attachment={}, profile_id=&quot;me&quot;):
+        &quot;&quot;&quot;Writes a wall post to the given profile&#39;s wall.
+
+        We default to writing to the authenticated user&#39;s wall if no
+        profile_id is specified.
+
+        <>
+
+        attachment adds a structured attachment to the status message being
+        posted to the Wall. It should be a dictionary of the form:
+
+            {&quot;name&quot;: &quot;Link name&quot;
+             &quot;link&quot;: &quot;http://www.example.com/&quot;,
+             &quot;caption&quot;: &quot;{*actor*} posted a new review&quot;,
+             &quot;description&quot;: &quot;This is a longer description of the attachment&quot;,
+             &quot;picture&quot;: &quot;http://www.example.com/thumbnail.jpg&quot;}
+
+        &quot;&quot;&quot;
+        return self.put_object(profile_id, &quot;feed&quot;, message=message, **attachment)
+
+    def put_comment(self, object_id, message):
+        &quot;&quot;&quot;Writes the given comment on the given post.&quot;&quot;&quot;
+        return self.put_object(object_id, &quot;comments&quot;, message=message)
+
+    def put_like(self, object_id):
+        &quot;&quot;&quot;Likes the given post.&quot;&quot;&quot;
+        return self.put_object(object_id, &quot;likes&quot;)
+
+    def delete_object(self, id):
+        &quot;&quot;&quot;Deletes the object with the given ID from the graph.&quot;&quot;&quot;
+        self.request(id, post_args={&quot;method&quot;: &quot;delete&quot;})
+
+    def request(self, path, args=None, post_args=None):
+        &quot;&quot;&quot;Fetches the given path in the Graph API.
+
+        We translate args to a valid query string. If post_args is given,
+        we send a POST request to the given path with the given arguments.
+        &quot;&quot;&quot;
+        if not args: args = {}
+        if self.access_token:
+            if post_args is not None:
+                post_args[&quot;access_token&quot;] = self.access_token
+            else:
+                args[&quot;access_token&quot;] = self.access_token
+        post_data = None if post_args is None else urllib.urlencode(post_args)
+        file = urllib.urlopen(&quot;https://graph.facebook.com/&quot; + path + &quot;?&quot; +
+                              urllib.urlencode(args), post_data)
+        try:
+            response = _parse_json(file.read())
+        finally:
+            file.close()
+        if response.get(&quot;error&quot;):
+            raise GraphAPIError(response[&quot;error&quot;][&quot;type&quot;],
+                                response[&quot;error&quot;][&quot;message&quot;])
+        return response
+
+
+class GraphAPIError(Exception):
+    def __init__(self, type, message):
+        Exception.__init__(self, message)
+        self.type = type
+
+
+def get_user_from_cookie(cookies, app_id, app_secret):
+    &quot;&quot;&quot;Parses the cookie set by the official Facebook JavaScript SDK.
+
+    cookies should be a dictionary-like object mapping cookie names to
+    cookie values.
+
+    If the user is logged in via Facebook, we return a dictionary with the
+    keys &quot;uid&quot; and &quot;access_token&quot;. The former is the user&#39;s Facebook ID,
+    and the latter can be used to make authenticated requests to the Graph API.
+    If the user is not logged in, we return None.
+
+    Download the official Facebook JavaScript SDK at
+    http://github.com/facebook/connect-js/. Read more about Facebook
+    authentication at http://developers.facebook.com/docs/authentication/.
+    &quot;&quot;&quot;
+    cookie = cookies.get(&quot;fbs_&quot; + app_id, &quot;&quot;)
+    if not cookie: return None
+    args = dict((k, v[-1]) for k, v in cgi.parse_qs(cookie.strip(&#39;&quot;&#39;)).items())
+    payload = &quot;&quot;.join(k * &quot;=&quot; + args[k] for k in sorted(args.keys())
+                      if k != &quot;sig&quot;)
+    sig = hashlib.md5(payload + app_secret).hexdigest()
+    expires = int(args[&quot;expires&quot;])
+    if sig == args.get(&quot;sig&quot;) and (expires == 0 or time.time() &lt; expires):
+        return args
+    else:
+        return None</pre>
+</div>
+
+</div>
+
+<script type="text/javascript" src="sh.js"></script>
+<link href="hs.python.css" type="text/css" rel="stylesheet" />
+<link href="hs.c-sharp.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="sh.syntax.python.js"></script>
+<script type="text/javascript">
+
+var code = document.getElementById('content').innerHTML;
+
+hs.highlight(code);
+
+
+</script>
+
+<p>Licenses are per-user, rather than per-machine, so you can enjoy Sublime Text on as many computers as you wish with your license.</p>
+
+</div>
+
+<form id="buyform" action="buy2" method="post" onsubmit="return validateForm()">
+<h2>Details</h2>
+<table>
+<tr><td>Name</td><td><input id="name" name="name"></td></tr>
+<tr><td>Email <sup>*</sup></td><td><input id="email" name="email"></td></tr>
+<tr><td colspan=2 style="padding-top: 20px; text-align: left;">
+<input type="radio" onclick="updateBusiness()" name="isbusiness" value="false" checked> This license is for me<br>
+<input id="isbus" type="radio" onclick="updateBusiness()" name="isbusiness" value="true"> The license is for the business:<br>
+</tr>
+<tr><td></td><td onclick="selectBusiness()"><input id="licenseName" name="businessName" disabled="true"></td></tr>
+</table>
+
+<h2>Quantity</h2>
+
+<div style="text-align: left; width: 350px;">
+<input type="checkbox" name="issingle" onclick="updatePurchase()" id="issingle" checked> Purchase <input id="single" name="singleQuantity" size="2" value="1" onblur="updateQuantity()"> single licenses at USD $59 each<br>
+<input type="checkbox" name="is10pack" onclick="updatePurchase()" id="is10pack"> Purchase <input id="10pack" name="tenpackQuantity" size="2" value="0" onblur="updateQuantity()" disabled> 10 pack licenses at USD $500 each</div>
+<div style="font-weight: bold; text-align: right; font-family: trebuchet ms; font-size: 18pt; width: 300px; padding: 20px;">Total: USD $<span id="total">59</span></div>
+<input id="ftotal" name="total" type="hidden" value="59">
+
+<div style="padding: 10px; text-align: right;"><input type="button" onclick="doSubmit()" value="Continue..."></div>
+
+</form>
+
+<p>Questions? Email <a href="mailto:support@sublimetext.com">support@sublimetext.com</a></p>
+
+<br>
+<p style="font-size: smaller">* Your email address is only used for retrieving lost licenses</p>
+
+</div>
+
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-3125611-1";
+urchinTracker();
+</script>
+
+</body>
+</html>

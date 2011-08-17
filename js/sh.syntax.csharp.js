@@ -3,7 +3,7 @@
   /* C# syntax */
 
   hs.addSyntax({
-    lang: 'c-sharp',
+    lang: 'csharp',
     expressions: [
         [/\\([\\tnr\d'"abfvx])/mg, function($0, $1) { return '&#92;' + $1.replace('"', '&quot;').replace("'", '&#39;'); } ],
         [/("[^\r\n"]*)?(\/\/[^\r\n"]*(?:"|'|\/\*|\*\/).*)/g, function($0, $1, $2) { return $1 ? $0 : $2.replace(/"/g, '&quot;').replace(/'/g, '&#39;') } ],

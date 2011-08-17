@@ -6,28 +6,173 @@
 </head>
 <body>
 
-<div id="code">
-    <div class="line-numbers">
-        <div class="thousands"></div>
-        <div class="hundreds"></div>
-        <div class="tens"></div>
-        <div class="ones"></div>
+<div class="python" id="code">
+    <pre class="content"><span class="comment">#!/usr/<span class="type">bin</span>/env python</span>
+<span class="comment"># This program adds up integers <span class="keyword">in</span> the command line</span>
+<span class="keyword">import</span> sys
+<span class="keyword">try</span>:
+    total <span class="keyword">=</span> <span class="type">sum</span>(<span class="type">int</span>(arg) <span class="keyword">for</span> arg <span class="keyword">in</span> sys.argv[<span class="string-op">1</span>:])
+    <span class="type">print</span> <span class="string">'<span class="type">sum</span> <span class="keyword">=</span>'</span>, total
+<span class="keyword">except</span> <span class="type">ValueError</span>:
+    <span class="type">print</span> <span class="string">'Please supply integer arguments'</span>
+</pre>
+    <div class="lines" id="hrm">
+        <pre>1</pre>
+        <pre>2</pre>
+        <pre>3</pre>
+        <pre>4</pre>
+        <pre>5</pre>
+        <pre>6</pre>
+        <pre>7</pre>
+        <pre>8</pre>
     </div>
-    <div class="content" id="content"></div>
+</div>
+
+<script>
+var code = document.getElementById('code');
+var hrm = document.getElementById('hrm');
+code.addEventListener("mousedown", function(){ 
+
+  hrm.style.visibility = 'hidden';
+
+}, false);
+</script>
+
+<style>
+  
+.lines pre { margin: 0; line-height: 16px; color: White; }
+  
+#wp-content .entry { width: 700px; margin: 0 auto; }
+</style>
+
+<div id="wp-content">
+<div class="entry">
+
+<strong>Updated: <em>June 6th, 2010</em></strong>
+
+Ran into an issue today looking for a web service (js &hArr; C#) in DNN that would:
+<ol>
+	<li><strong>Maintain DNN's HttpContext</strong> - unlike an typical .asmx</li>
+	<li><strong>jQuery friendly</strong> - allow simple calls with <a href="http://api.jquery.com/jQuery.ajax/" target="_blank">$.ajax()</a></li>
+	<li><strong>Efficient/quick</strong> - didn't request or resubmit the entire page (some sort of partial postback)</li>
+</ol>
+Usually, you decorate a public static method or property with <a href="http://msdn.microsoft.com/en-us/library/byxd99hx(VS.90).aspx" target="_blank">[WebMethod()]</a> in your code-behind; here's an <a href="http://encosia.com/2008/05/29/using-jquery-to-directly-call-aspnet-ajax-page-methods/" target="_blank">excellent</a> example of doing this.
+
+However, because of how DNN works, this isn't so straight forward. You <em>could</em> add your method directly to DNN's ~/Default.aspx.cs, but I'm guessing (like me) you're looking for a more portable solution.
+
+I should mention that there is such a thing as <a href="http://iweb.adefwebserver.com/" target="_blank">IWeb</a> for DNN that's specifically designed for this, and if you would like to do all the setup, head that way.
+
+What I'm doing is to create a false web-service by checking the headers during Page_Init (or OnInit) and (like you would serve an image) Response.Write(...) back to the page:
+
+<pre lang="csharp">void Page_Init(object sender, EventArgs e)
+{
+    // Check for DNN Service
+    if (Convert.ToBoolean(Request.Headers["DNN-Service"]))
+    {
+        Response.Clear();
+
+        // Set headers
+        Response.ContentType = "application/json";
+        Response.Charset = "utf-8";
+        Response.Expires = 0;
+
+        try
+        {
+            var json = new JavaScriptSerializer();
+
+            // Get Page Source
+            string pageSource = string.Empty;
+            using (var pageSourceStream = new StreamReader(Request.InputStream))
+            {
+                pageSource = pageSourceStream.ReadToEnd();
+                pageSourceStream.Close();
+            }
+
+            // Parse Request as JSON object
+            var args = (Dictionary&lt;string, object&gt;)json.DeserializeObject(pageSource);
+
+            // Call Methods
+            switch (Request.Headers["DNN-Service-Method"])
+            {
+                case "Sum":
+                    // Output JSON
+                    Response.Write(json.Serialize(new
+                    {
+                        result = (int)args["first"] + (int)args["second"]
+                    }));
+                    break;
+            }
+
+        }
+        catch (Exception ex)
+        {
+            // Write JSON error
+            Response.Write(new JavaScriptSerializer().Serialize(new
+            {
+                Exception = ex.GetType().Name,
+                Message = ex.Message,
+                StackTrace = ex.StackTrace
+            }));
+        }
+
+        Response.End();
+    }
+}</pre>
+And our jQuery:
+<pre lang="javascript">// Call custom service
+$.ajax({
+    type: "POST",
+    url: "<%= new Uri(PortalSettings.ActiveTab.FullUrl).AbsolutePath %>",
+    data: { "first": 11,
+            "second": 13    },
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader("DNN-Service", "true");
+        xhr.setRequestHeader("DNN-Service-Method", "Sum");
+    },
+    success: function(msg) { 
+        if (msg.Exception == undefined) { 
+            alert(msg.result); // 24
+        } 
+    },
+    error : function(msg) { alert("Failed"); }
+});</pre>
+
+You can see where this is going ...
+
+</div>
 </div>
 
 <!-- Syntax Highlighter (original, right?) -->
-<script src="sh.js"></script>
+<script src="js/sh.js"></script>
 
 <script> 
-hs.highlight('python', '#!/usr/bin/env python\n' +
-'# This program adds up integers in the command line\n' +
-'import sys\n' +
-'try:\n' +
-'    total = sum(int(arg) for arg in sys.argv[1:])\n' +
-'    print \'sum =\', total\n' +
-'except ValueError:\n' +
-'    print \'Please supply integer arguments\'\n');
+
+var code_bits = document.getElementsByTagName('pre');
+
+var pel = code_bits.length;
+for (var i = 0; i < pel; i++) {
+
+  var code_bit = code_bits[i];
+  if (code_bit) {
+    var lang = code_bit.getAttribute('lang');
+    if (lang) {
+      hs.highlight(code_bit, lang, code_bit.innerText);
+    }
+  }
+}
+
+hs.loadSyntax('python'); // testing
+
+//hs.highlight(document.getElementById('content'), 'python', '#!/usr/bin/env python\n' +
+//'# This program adds up integers in the command line\n' +
+//'import sys\n' +
+//'try:\n' +
+//'    total = sum(int(arg) for arg in sys.argv[1:])\n' +
+//'    print \'sum =\', total\n' +
+//'except ValueError:\n' +
+//'    print \'Please supply integer arguments\'\n');
 </script>
 
 </body>

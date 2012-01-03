@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Syntax Highlighter - Demo</title>
+    <script src="js/sh2.js" defer async="true"></script>
+</head>
+<body>
+
+<pre lang="csharp">void Page_Init(object sender, EventArgs e)
+{
+    // Check for DNN Service
+    if (Convert.ToBoolean(Request.Headers["DNN-Service"]))
+    {
+        Response.Clear();
+
+        // Set headers
+        Response.ContentType = "application/json";
+        Response.Charset = "utf-8";
+        Response.Expires = 0;
+    }
+}</pre>
+
+<pre lang="javascript">// Call custom service
+// hi
+;
+/* hello */
+$.ajax({
+    type: "POST",
+    url: "<%= new Uri(PortalSettings.ActiveTab.FullUrl).AbsolutePath %>",
+    data: { "first": 11,
+            "second": 13    },
+    contentType: "application/json; charset=utf-8",
+    dataType: "json",
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader("DNN-Service", "true");
+        xhr.setRequestHeader("DNN-Service-Method", "Sum");
+    },
+    success: function(msg) { 
+        if (msg.Exception == undefined) { 
+            alert(msg.result); // 24
+        } 
+    },
+    error : function(msg) { alert("Failed"); }
+});</pre>
+
+This is the last element
+
+</body>
+</html>
